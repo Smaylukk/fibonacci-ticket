@@ -1,0 +1,50 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fibonacci  </title>
+</head>
+<body>
+  <h1>Fibonacci ticket manager</h1>
+  <div>
+    <label for="fibNumber">Enter fibonacci index</label>
+    <input type="number" id="fibNumber">
+    <button id="createTask" onclick="onCreateTask()">Create task</button>
+    <div id="task"></div>
+  </div>
+  <br>
+  <div>
+    <label for="checkTicket">Enter ticket for check result</label>
+    <input type="number" id="checkTicket">
+    <button id="checkButton" onclick="onCheckTicket()">Check ticket</button>
+    <div 
+      id="check"
+      style="word-wrap:anywhere;"
+    ></div>
+  </div>
+  <script type="text/javascript">
+    async function onCreateTask() {
+      const res = await fetch('/input?number=' + document.getElementById("fibNumber").value);
+      if (res.ok) {
+        let task = await res.json();
+        document.getElementById("task").innerText = 'Your ticket - ' + task.ticket;
+      }else{
+        alert(`Error - ${res.status}`);
+        document.getElementById("task").innerText='';
+      }
+    }
+
+    async function onCheckTicket(e) {
+        const res = await fetch('/output?ticket=' + document.getElementById("checkTicket").value);
+        if (res.ok) {
+          let task = await res.json();
+          document.getElementById("check").innerText = 'Your fibonacci nimber - ' + task.Fibonacci;
+        } else {
+          alert(`Error - ${res.status}`);
+          document.getElementById("check").innerText = '';
+        }
+      }
+  </script>
+</body>
+</html>
